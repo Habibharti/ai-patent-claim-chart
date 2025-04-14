@@ -1,5 +1,4 @@
-
+torch==1.10.0
 transformers
-torch
 fpdf
 streamlit
