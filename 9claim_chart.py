@@ -1,12 +1,10 @@
 import streamlit as st
-import pandas as pd
 from fpdf import FPDF
 from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
-import torch
 import re
 from io import BytesIO
 
-# Load AI model
+# Load AI model with proper caching
 @st.cache_resource
 def load_generator():
     try:
@@ -70,10 +68,11 @@ def create_claim_chart_pdf(mappings, mode):
     pdf.set_font("Arial", 'B', 14)
     pdf.cell(0, 10, "Table of Contents", ln=True)
     pdf.ln(5)
+    
     toc = []
     for i in range(len(mappings)):
         toc.append((pdf.page_no() + i + 1, f"Claim {i + 1}"))
-
+    
     start_page = pdf.page_no() + 1
     for i, (elem, feat, justify) in enumerate(mappings, start=1):
         pdf.add_page()
